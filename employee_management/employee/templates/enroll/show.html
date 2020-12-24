@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("button").click(function() {
+                location.href = "/create/";
+            });
+        });
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+    <table class="display" id="table_id">
+        <thead class="">
+            <tr>
+                <th>Actions</th>
+                <th>first_name</th>
+                <th>last_name</th>
+                <th>username</th>
+                <th>date_of_birth</th>
+                <th>gender</th>
+                <th>email_address</th>
+                <th>contact_number</th>
+                <th>status_id</th>
+                <th>address_id</th>
+                <th>role_id</th>
+                <th>deleted</th>
+            </tr>
+        </thead>
+        {% for employee in employees %}
+        <tr>
+            <td>
+                {% if request.user.is_superuser %}
+                <a href="/edit/{{employee.id}}">
+                    <span class="glyphicon glyphicon-pencil">Edit</span>
+                </a>
+                <a href="/delete/{{employee.id}}">Delete</a> {% else %} {% endif %}
+            </td>
+            <td>{{employee.first_name}}</td>
+            <td>{{employee.last_name}}</td>
+            <td>{{employee.username}}</td>
+            <td>{{employee.date_of_birtd}}</td>
+            <td>{{employee.gender}}</td>
+            <td>{{employee.email_address}}</td>
+            <td>{{employee.contact_number}}</td>
+            <td>{{employee.status_id}}</td>
+            <td>{{employee.address_id}}</td>
+            <td>{{employee.role_id}}</td>
+            <td>{{employee.deleted}}</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        $(document).ready(function() {
+            $('#table_id').DataTable();
+        });
+    </script>
+    <div>
+        {% if request.user.is_superuser %}
+        <button>Add</button> {% else %} {% endif %}
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index</title>
+</head>
+
+<body>
+    <form action="" method="post">
+        {% csrf_token %}
+        <br>
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-lable"></label>
+            <div class="col-sm-4">
+                <h3>Enter Details</h3>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">First Name</label>
+            <div class="col-sm-4">
+                {{ form.first_name }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Last Name</label>
+            <div class="col-sm-4">
+                {{ form.last_name }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Username</label>
+            <div class="col-sm-4">
+                {{ form.username }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">DOB</label>
+            <div class="col-sm-4">
+                {{ form.date_of_birth }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Gender</label>
+            <div class="col-sm-4">
+                {{ form.gender }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Email</label>
+            <div class="col-sm-4">
+                {{ form.email_address }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Contact Number</label>
+            <div class="col-sm-4">
+                {{ form.contact_number }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Status ID</label>
+            <div class="col-sm-4">
+                {{ form.status_id }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Address ID</label>
+            <div class="col-sm-4">
+                {{ form.address_id }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Role ID</label>
+            <div class="col-sm-4">
+                {{ form.role_id }}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-2 col-form-lable">Deleted</label>
+            <div class="col-sm-4">
+                {{form.deleted}}
+            </div>
+        </div>
+
+        <div class="form-group row">
+            <label class="col-sm-1 col-form-lable"></label>
+            <div class="col-sm-4">
+                <input type="submit" value="OK">
+            </div>
+        </div>
+
+    </form>
+</body>
+
+</html>
