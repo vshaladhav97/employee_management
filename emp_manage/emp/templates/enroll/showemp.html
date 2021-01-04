@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        var URL = "classproduct/";
+
+        $(document).ready(function() {
+            $("#adding").click(function() {
+                location.href = "/create/";
+            });
+        });
+
+        function getCourses() {
+            $.getJSON(URL, {}, showCourses);
+        }
+
+        function showCourses(courses) {
+            $("#courserows").html("");
+            $.each(
+                courses,
+                function(idx, course) {
+                    $("#courserows").append(
+                        "<tr><td>" +
+                        course.id +
+                        "</td><td>" +
+                        course.first_name +
+                        "</td><td>" +
+                        course.last_name +
+                        "</td><td>" +
+                        course.username +
+                        "</td><td>" +
+                        course.date_of_birth +
+                        "</td><td>" +
+                        course.gender +
+                        "</td><td>" +
+                        course.email_address +
+                        "</td><td>" +
+                        course.contact_number +
+                        "</td><td>" +
+                        course.addressdetails +
+                        "</td><td>" +
+                        course.roles +
+                        "</td><td>" +
+                        course.deleted +
+                        "</td><tr>"
+                    );
+                } // anonymous function
+            );
+            // each()
+
+            $("table_id").show();
+        } // showCourses
+        getCourses();
+    </script>
+</head>
+
+<body>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
+    <table id="table_id" class="display">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>first_name</th>
+                <th>Last_Name</th>
+                <th>UserName</th>
+                <th>date_of_birth</th>
+                <th>gender</th>
+                <th>email_address</th>
+                <th>contact_number</th>
+                <th>addressdetails_ID</th>
+                <th>Roles</th>
+                <th>Deleted</th>
+            </tr>
+        </thead>
+        <tbody id="courserows"></tbody>
+    </table>
+    <div>
+        <button id="adding">ADD</button>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $('#table_id').DataTable({
+                "ajax": "classproduct/",
+                "dataSrc": "",
+                <!-- "scrollY": "200px", -->
+                <!-- "scrollCollapse": true, -->
+                <!-- "paging": false, -->
+                "columns": [{
+                    "data": [
+                        [
+                            "id",
+                            "first_name",
+                            "last_name",
+                            "username",
+                            "date_of_birth",
+                            "gender",
+                            "email_address",
+                            "contact_number",
+                            "addressdetails",
+                            "roles",
+                            "deleted",
+                        ]
+                    ]
+                }]
+            });
+        })
+    </script>
+</body>
+
+</html>

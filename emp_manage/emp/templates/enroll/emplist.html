@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
+    <script type="text/javascript">
+        var URL = "classproduct/";
+
+
+
+
+        $(document).ready(function() {
+            $("#add").click(function() {
+                location.href = "/create/";
+            });
+        });
+        $(document).ready(
+            function() {
+                $("#courses").hide();
+            }
+        );
+
+        function getCourses() {
+            $.getJSON(URL, {}, showCourses);
+        }
+
+        function getCourse() {
+            $.getJSON(URL + $("#id").val())
+                .done(showCourse) // on success - 200
+                .fail(function() // on failure - 404
+                    {
+                        alert("Sorry! Course Not Found!");
+                    }
+                );
+        }
+
+        function showCourse(course) {
+            $("#id").val(course.id)
+            $("#first_name").val(course.first_name)
+            $("#last_name").val(course.last_name)
+            $("#username").val(course.username)
+            $("#date_of_birth").val(course.date_of_birth)
+            $("#gender").val(course.gender)
+            $("#email_address").val(course.email_address)
+            $("#contact_number").val(course.contact_number)
+            $("#addressdetails").val(course.addressdetails)
+            $("#role_id").val(course.role_id)
+            $("#deleted").val(course.deleted)
+        }
+
+        function showCourses(courses) {
+            $("#courserows").html("")
+            $.each(courses,
+                function(idx, course) {
+                    $("#courserows").append("<tr><td>" + course.id + "</td><td>" + course.first_name + "</td><td>" +
+                        course.last_name + "</td><td>" + course.username + "</td><td>" + course.date_of_birth + "</td><td>" +
+                        course.gender + "</td><td>" + course.email_address + "</td><td>" +
+                        course.contact_number + "</td><td>" + course.addressdetails + "</td><td>" + course.role_id + "</td><td>" +
+                        course.deleted + "</td><tr>");
+
+                } // anonymous function
+
+            );
+            // each()
+
+            $("#courses").show();
+        } // showCourses
+
+        function addCourse() {
+            $.ajax({
+                "url": URL,
+                "data": {
+                    "id": $("#id").val(),
+                    "first_name": $("#first_name").val(),
+                    "last_name": $("#last_name").val(),
+                    "username": $("#username").val(),
+                    "date_of_birth": $("#date_of_birth").val(),
+                    "gender": $("#gender").val(),
+                    "email_address": $("#email_address").val(),
+                    "contact_number": $("#contact_number").val(),
+                    "addressdetails": $("#addressdetails").val(),
+                    "role_id": $("#role_id").val(),
+                    "deleted": $("#deleted").val()
+                },
+                "type": "post",
+                "success": add_success,
+                "error": add_error
+            }); // ajax()
+        }
+
+        function add_success() {
+            alert("Added course Successfully");
+        }
+
+        function add_error() {
+            alert("Could not add course!");
+        }
+
+        function deleteCourse() {
+            $.ajax({
+                "url": URL + $("#id").val(),
+                "type": "delete",
+                "success": delete_success,
+                "error": delete_error
+            }); // ajax()
+        }
+
+        function delete_success() {
+            alert("Deleted Course Successfully");
+        }
+
+        function delete_error() {
+            alert("Could not delete Course!");
+        }
+
+
+        function updateCourse() {
+            $.ajax({
+                "url": URL + $("#id").val() + "/",
+                "data": {
+                    "id": $("#id").val(),
+                    "first_name": $("#first_name").val(),
+                    "last_name": $("#last_name").val(),
+                    "username": $("#username").val(),
+                    "date_of_birth": $("#date_of_birth").val(),
+                    "gender": $("#gender").val(),
+                    "email_address": $("#email_address").val(),
+                    "contact_number": $("#contact_number").val(),
+                    "addressdetails": $("#addressdetails").val(),
+                    "role": $("#role").val(),
+                    "deleted": $("#deleted").val()
+                },
+                "type": "put",
+                "success": update_success,
+                "error": update_error
+            }); // ajax()
+        }
+
+        function update_success() {
+            alert("Updated Course Successfully");
+        }
+
+        function update_error() {
+            alert("Could not update Course!");
+        }
+    </script>
+</head>
+
+<body>
+    <div>
+        <button id="adding">Add</button>
+    </div>
+    <p/> ID:
+    <br>
+    <input type="number" id="id">
+    <br> first_name:
+    <br>
+    <input type="text" id="first_name">
+    <br> last_name:
+    <br>
+    <input type="text" id="last_name">
+    <br> UserName:
+    <br>
+    <input type="text" id="username">
+    <br> date_of_birth:
+    <br>
+    <input type="date" id="date_of_birth">
+    <br> gender
+    <br>
+    <select name="gender" id="gender">
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+                <option value="U">Unisex/parody</option>
+            </select>
+    <br> email_address:
+    <br>
+    <input type="email_address" id="email_address">
+    <br> contact_number Number:
+    <br>
+    <input type="tel" id="contact_number" pattern="[0-9]{10}" required>
+    <br> addressdetails ID
+    <br>
+    <input type="number" id="addressdetails">
+    <br> Role ID
+    <br>
+    <input type="number" id="role_id">
+    <br> Deleted
+    <br>
+    <input type="number" id="deleted">
+    <br>
+    <p/>
+    <button onclick="getCourse()">Details</button>
+    <!-- <a></a> -->
+    <!-- <button onclick="addCourse()">Add</button> -->
+    <button id="add">ADD</button>
+    <button onclick="deleteCourse()">Delete</button>
+    <button onclick="updateCourse()">Update</button>
+    <button onclick="getCourses()">List</button>
+    <!-- <button id="list">Show</button> -->
+    <p/>
+    <table border="1" cellpadding="5pt" id="courses">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>first_name</th>
+                <th>Last_Name</th>
+                <th>UserName</th>
+                <th>date_of_birth</th>
+                <th>gender</th>
+                <th>email_address</th>
+                <th>contact_number</th>
+                <th>addressdetails_ID</th>
+                <th>Role_ID</th>
+                <th>Deleted</th>
+            </tr>
+        </thead>
+        <tbody id="courserows"></tbody>
+    </table>
+
+</body>
+
+</html>
