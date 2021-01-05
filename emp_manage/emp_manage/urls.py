@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from emp.views import sign_up, user_login, Management, clients, clients1, clients2
+from emp.views import sign_up, user_login, Management, clients, clients1, clients2, save_data_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,4 +30,5 @@ urlpatterns = [
     path('show/', clients2),
     # re_path('classproduct/(?P<code>\w+)/$', ManagementUpdate.as_view()),
     path('test/',Management.as_view(), name='post'),
+    path('tp/',save_data_test, name='tp'),
 ]
