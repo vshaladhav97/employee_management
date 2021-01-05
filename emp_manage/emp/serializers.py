@@ -15,8 +15,8 @@ class EmployeesSerializer(serializers.ModelSerializer):
     # roles = RoleSerializer()
     class Meta:
         model = Employees
-        # fields = ('id', 'first_name', 'last_name', 'username', 'date_of_birth', 'gender', 'email_address', 'contact_number', 'addressdetails', 'roles', 'deleted')
-        fields = '__all__'
+        fields = ('first_name', 'last_name', 'username', 'date_of_birth', 'gender', 'email_address', 'contact_number', 'deleted')
+        # fields = '__all__'
         
 #     # def create(self, validated_data):
 #     #     addressdetails = validated_data.get('addressdetails')
@@ -58,18 +58,18 @@ class EmployeesSerializer(serializers.ModelSerializer):
 #     #     return instance
 
 class AddressDetailsSerializer(serializers.ModelSerializer):
-    employees = EmployeesSerializer(many=True)
+    # employees = EmployeesSerializer(many=True)
     class Meta:
         model = AddressDetails
-        fields = ["address_line_1", "address_line_2", "city", "country", "pincode", "employees"]
+        fields = ("address_line_1", "address_line_2", "city", "country", "pincode")
         # exclude = ("id", )
         
-    def create(self, validated_data):
-        employees_data = validated_data.pop('employees')
-        addressdetails = AddressDetails.objects.create(**validated_data)
-        for employee_data in employees_data:
-            Employees.objects.create(addressdetails=addressdetails, **employee_data)
-        return addressdetails
+    # def create(self, validated_data):
+    #     employees_data = validated_data.pop('employees')
+    #     addressdetails = AddressDetails.objects.create(**validated_data)
+    #     for employee_data in employees_data:
+    #         Employees.objects.create(addressdetails=addressdetails, **employee_data)
+    #     return addressdetails
 
 # class AddressDetailsSerializer(serializers.ModelSerializer):
 #     class Meta:
