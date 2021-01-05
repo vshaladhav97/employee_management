@@ -47,29 +47,6 @@ class Management(APIView):
         # print(serializer.data)
         return Response(serializer.data)
 
-    # def post(self, request, *args, **kwargs):
-    #     # # addressdetails = get_object_or_404(AddressDetails, )
-    #     serializer1 = EmployeesSerializer(data=request.data)
-    #     # serializer2 = AddressDetailsSerializer(data=request.data)
-    #     # serializer3 = RoleSerializer(data=request.data)
-    #     # result = serializer1.data + serializer2.data + serializer3.data
-    #     print(request.data)
-    #     if serializer1.is_valid():
-    #         serializer1.save()
-    #         print(serializer1.data)
-    #         return Response(serializer1.data,status=201)  # Successful post
-
-    #     # elif serializer2.is_valid():
-    #     #     serializer2.save()
-    #     #     print(serializer2.data)
-    #     #     return Response(serializer2.data, status=201) # Successful post
-
-    #     # elif serializer3.is_valid():
-    #     #     serializer3.save()
-    #     #     print(serializer3.data)
-    #     #     return Response(serializer3.data, status=201)
-    #     return Response(serializer1.errors, status=400)  # Invalid data
-
     def post(self, request):
         json_data = request.data
         details = {"employees":[{"first_name":json_data["first_name"], "last_name":json_data["last_name"], "username": json_data["username"],
