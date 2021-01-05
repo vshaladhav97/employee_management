@@ -41,7 +41,7 @@ class Employees(models.Model):
     email_address = models.EmailField(max_length=100)
     contact_number = models.CharField(max_length=20)
     addressdetails = models.ForeignKey(AddressDetails, on_delete=models.CASCADE, related_name="addressdetails", null=True)
-    roles = models.ForeignKey(Roles, on_delete=models.CASCADE, related_name="roles", null=True)
+    # roles = models.ForeignKey(Roles, on_delete=models.CASCADE, related_name="roles", null=True)
     deleted = models.BooleanField()
     
     def __str__(self):
