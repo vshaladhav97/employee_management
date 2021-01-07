@@ -14,21 +14,27 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
-
-from emp.views import sign_up, user_login, Management, clients, clients1, clients2, save_data_test
+from django.urls import path, re_path
+from django.conf.urls import url
+from django.contrib.auth.decorators import login_required, permission_required
+from emp.views import sign_up, user_login, Management, clients, clients1, clients2, clients3, ManagementDetails, logoutUser
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('signup/', sign_up, name='signup'),
     path('login/', user_login, name='login'),
+    path('logout/', logoutUser, name="logout"),
     path('rest_client1/classproduct/', Management.as_view()),
     path('create/classproduct/', Management.as_view()),
-    path('show/classproduct/', Management.as_view()),
+    path('classproduct/', login_required(Management.as_view())),
+    path('create/classproduct/<int:addressdetails>', ManagementDetails.as_view()),
+    path('update/classproduct/', ManagementDetails.as_view()),
+    path('update/classproduct/<int:id>', ManagementDetails.as_view()),
+    path('update/', clients3),
+    path('classproduct/<int:id>', ManagementDetails.as_view()),
     path('rest_client1/', clients),
-    path('create/', clients1),
-    path('show/', clients2),
-    # re_path('classproduct/(?P<code>\w+)/$', ManagementUpdate.as_view()),
+    path('create/', login_required(clients1)),    
+    path('',login_required(clients2), name='show'),
+    path('<int:id>', clients2),
     path('test/',Management.as_view(), name='post'),
-    path('tp/',save_data_test, name='tp'),
 ]
