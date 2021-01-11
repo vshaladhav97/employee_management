@@ -1,178 +1,85 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
-        var URL = "classproduct/";
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
-        function getCourse() {
-            $.getJSON(URL + $("#id").val())
-                .done(showCourse) // on success - 200
-                .fail(function() // on failure - 404
-                    {
-                        alert("Sorry! Course Not Found!");
-                    }
-                );
-        }
-
-        function showCourse(course) {
-            $("#id").val(course.id)
-            $("#first_name").val(course.first_name)
-            $("#last_name").val(course.last_name)
-            $("#username").val(course.username)
-            $("#date_of_birth").val(course.date_of_birth)
-            $("#gender").val(course.gender)
-            $("#email_address").val(course.email_address)
-            $("#contact_number").val(course.contact_number)
-            $("#addressdetails").val(course.addressdetails),
-                $("#address_line_1").val(course.addressdetails.address_line_1),
-                $("#address_line_2").val(course.address_line_2),
-                $("#city").val(course.city),
-                $("#country").val(course.country),
-                $("#pincode").val(course.pincode),
-                $("#deleted").val(course.deleted)
-        }
-
-        function addCourse() {
-            $.ajax({
-                "url": URL,
-                "data": {
-                    "first_name": $("#first_name").val(),
-                    "last_name": $("#last_name").val(),
-                    "username": $("#username").val(),
-                    "date_of_birth": $("#date_of_birth").val(),
-                    "gender": $("#gender").val(),
-                    "email_address": $("#email_address").val(),
-                    "contact_number": $("#contact_number").val(),
-                    "address_line_1": $("#address_line_1").val(),
-                    "address_line_2": $("#address_line_2").val(),
-                    "city": $("#city").val(),
-                    "country": $("#country").val(),
-                    "pincode": $("#pincode").val(),
-                    "deleted": $("#deleted").val()
-                },
-                "type": "post",
-                "headers": {
-                    "X-CSRFToken": '{{ csrf_token }}'
-                },
-                "success": add_success,
-                "error": add_error
-            }); // ajax()
-        }
-
-        function add_success() {
-            alert("Added course Successfully");
-        }
-
-        function add_error() {
-            alert("Could not add course!");
-        }
-
-        function updateCourse() {
-            $.ajax({
-                "url": URL + $("#addressdetails").val() + "/",
-                "data": {
-                    "id": $("#id").val(),
-                    "first_name": $("#first_name").val(),
-                    "last_name": $("#last_name").val(),
-                    "username": $("#username").val(),
-                    "date_of_birth": $("#date_of_birth").val(),
-                    "gender": $("#gender").val(),
-                    "email_address": $("#email_address").val(),
-                    "contact_number": $("#contact_number").val(),
-                    "address_line_1": $("#address_line_1").val(),
-                    "address_line_2": $("#address_line_2").val(),
-                    "city": $("#city").val(),
-                    "country": $("#country").val(),
-                    "pincode": $("#pincode").val(),
-                    "deleted": $("#deleted").val()
-                },
-                "type": "put",
-                "headers": {
-                    "X-CSRFToken": '{{ csrf_token }}'
-                },
-                "success": update_success,
-                "error": update_error
-            }); // ajax()
-        }
-
-        function update_success() {
-            alert("Updated Course Successfully");
-        }
-
-        function update_error() {
-            alert("Could not update Course!");
-        }
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+    <script src="{% static 'js/update.js' %}"></script>
+    <script src="{% static 'js/showemp.js' %}"></script>
+    <script>
+        var csrftoken = '{{ csrf_token }}';
     </script>
+    <link rel="stylesheet" href="{% static 'css/update.css' %}">
 
 </head>
 
 <body>
-    <center>
-        <p/>
-        <br> ID:
+    {% block content %}
+    <div class="head">
+        <h1>UPDATE EMPLOYEES DETAILS</h1>
+    </div>
+    <div class="form-container">
         <br>
-        <input type="number" id="id">
-        <br> first_name:
+
+        <input type="number" id="id" placeholder="id">
         <br>
-        <input type="text" id="first_name">
-        <br> last_name:
         <br>
-        <input type="text" id="last_name">
-        <br> UserName:
+
+        <input type="text" id="first_name" placeholder="first name">
+
+        <input type="text" id="last_name" placeholder="last name">
         <br>
-        <input type="text" id="username">
-        <br> date_of_birth:
         <br>
-        <input type="date" id="date_of_birth">
-        <br> gender
+
+        <input type="text" id="username" placeholder="user name">
         <br>
+        <br>
+
+        <input type="date" id="date_of_birth" placeholder="dob">
+
         <select name="gender" id="gender">
                 <option value="M">Male</option>
                 <option value="F">Female</option>
                 <option value="U">Unisex/parody</option>
             </select>
-        <br> email_address:
         <br>
-        <input type="email_address" id="email_address">
-        <br> contact_number Number:
-        <br>
-        <input type="tel" id="contact_number" pattern="[0-9]{10}" required>
-        <br> addressdetails
-        <br>
-        <input type="text" id="addressdetails">
-        <br> address1
-        <br>
-        <input type="text" id="address_line_1">
-        <br> address2
-        <br>
-        <input type="text" id="address_line_2">
-        <br> city
-        <br>
-        <input type="text" id="city">
-        <br> country
-        <br>
-        <input type="text" id="country">
-        <br> pincode
-        <br>
-        <input type="text" id="pincode">
-
-        <br> Deleted
         <br>
 
-        <input type="checkbox" id="deleted">
+        <input type="email_address" id="email_address" placeholder="email">
+
+        <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
+        <br>
+        <br>
+
+        <input type="text" id="addressdetails" placeholder="addressdetails id">
+        <br>
+        <br>
+
+        <input type="text" id="address_line_1" placeholder="address1">
+        <input type="text" id="address_line_2" placeholder="address2">
+        <br>
+        <br>
+
+        <input type="text" id="city" placeholder="city">
+        <input type="text" id="country" placeholder="country">
+        <br>
+        <br>
+        <input type="text" id="pincode" placeholder="pincode">
+
+
         <br>
         <p/>
         <button onclick="addCourse()">Add</button>
         <button onclick="getCourse()">Details</button>
         <button onclick="updateCourse()">Update</button>
         <p/>
-    </center>
+    </div>
+    {% endblock %}
 </body>
 
 </html>

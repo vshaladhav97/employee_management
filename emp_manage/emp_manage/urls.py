@@ -15,6 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
+from django.conf.urls.static import static
+from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
 from emp.views import sign_up, user_login, Management, clients, clients1, clients2, clients3, ManagementDetails, logoutUser
@@ -25,16 +27,20 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', logoutUser, name="logout"),
     path('rest_client1/classproduct/', Management.as_view()),
-    path('create/classproduct/', Management.as_view()),
-    path('classproduct/', login_required(Management.as_view())),
-    path('create/classproduct/<int:addressdetails>', ManagementDetails.as_view()),
-    path('update/classproduct/', ManagementDetails.as_view()),
-    path('update/classproduct/<int:id>', ManagementDetails.as_view()),
-    path('update/', clients3),
-    path('classproduct/<int:id>', ManagementDetails.as_view()),
-    path('rest_client1/', clients),
-    path('create/', login_required(clients1)),    
     path('',login_required(clients2), name='show'),
     path('<int:id>', clients2),
+    path('classproduct/', login_required(Management.as_view())),
+    path('classproduct/<int:id>', ManagementDetails.as_view()),
+    path('create/', login_required(clients1)),
+    path('create/classproduct/', Management.as_view()),   
+    path('create/classproduct/<int:addressdetails>', ManagementDetails.as_view()),
+    path('update/', clients3),
+    path('update/<int:id>', clients3),
+    path('update/classproduct/', Management.as_view()),
+    path('update/classproduct/<int:id>', ManagementDetails.as_view()),
+    path('rest_client1/', clients),
+    
+    
+    
     path('test/',Management.as_view(), name='post'),
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

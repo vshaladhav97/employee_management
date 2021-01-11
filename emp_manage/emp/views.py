@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
 from .models import Employees, Documents, AddressDetails, EmployeeStatus, Roles, DocumentVersions, EmployeeDocument, DocumentFolder
 from rest_framework.views import APIView
-from .serializers import EmployeesSerializer, DocumentSerializer, AddressDetailsSerializer, RoleSerializer, GetEmployeesSerializer
+from .serializers import EmployeesSerializer, DocumentSerializer, AddressDetailsSerializer, RoleSerializer, GetEmployeesSerializer, GetEmployeesSerializer1
 from django.contrib import messages
 from .forms import SignUpForm
 from rest_framework import status
@@ -15,7 +15,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group, Permission
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
-
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import csrf_protect
 # Create your views here.
 
 # signup function
@@ -77,10 +78,11 @@ class Management(APIView):
     # permissions for user and admin
     @method_decorator(login_required(login_url='login'), name='dispatch')
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
+    @csrf_exempt
     def post(self, request):
         json_data = request.data
         details = {"employees": [{"first_name": json_data["first_name"], "last_name":json_data["last_name"], "username": json_data["username"],
-                                "date_of_birth":json_data["date_of_birth"], "gender": json_data["gender"], "email_address":json_data["email_address"], "contact_number":json_data["contact_number"], "deleted": json_data["deleted"]}], "address_line_1": json_data["address_line_1"], "address_line_2": json_data["address_line_2"], "city": json_data["city"], "country": json_data["country"], "pincode": json_data["pincode"]}
+                                  "date_of_birth":json_data["date_of_birth"], "gender": json_data["gender"], "email_address":json_data["email_address"], "contact_number":json_data["contact_number"], "deleted": json_data["deleted"]}], "address_line_1": json_data["address_line_1"], "address_line_2": json_data["address_line_2"], "city": json_data["city"], "country": json_data["country"], "pincode": json_data["pincode"]}
 
         address = AddressDetailsSerializer(data=details)
         if address.is_valid():
@@ -101,50 +103,29 @@ class ManagementDetails(APIView):
 
     def get(self, request, id):
         addressdetails = self.get_object(id)
-        serializer = EmployeesSerializer(addressdetails)
-        return Response(serializer.data)
+
+        serializer1 = GetEmployeesSerializer(addressdetails)
+
+        return Response(serializer1.data)
 
     @method_decorator(login_required(login_url='login'), name='dispatch')
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
     def put(self, request, id):
-        json_data = request.data
 
-        details = {
-            "id": json_data["id"],
-            "first_name": json_data["first_name"],
-            "last_name": json_data["last_name"],
-            "username": json_data["username"],
-            "date_of_birth": json_data["date_of_birth"],
-            "gender": json_data["gender"],
-            "email_address": json_data["email_address"],
-            "contact_number": json_data["contact_number"],
-            "deleted": json_data["deleted"],
-            "addressdetails": json_data[
-                {
-                    "id": json_data["id"],
-                    "address_line_1": json_data["address_line_1"],
-                    "address_line_2": json_data["address_line_2"],
-                    "city": json_data["city"],
-                    "country": json_data["country"],
-                    "pincode": json_data["pincode"]
-                }
-            ]
-
-        }
-
-        serializer = AddressDetailsSerializer(data=details)
-        print(serializer.is_valid)
+        addressdetails = self.get_object(id=id)
+        serializer = GetEmployeesSerializer1(addressdetails, data=request.data)
         if serializer.is_valid():
             serializer.save()
+            print(serializer.data)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @method_decorator(login_required(login_url='login'), name='dispatch')
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
+    @csrf_protect
     def delete(self, request, id):  # to delete record from table
         print(request.user.is_authenticated)
         addressdetails = AddressDetails.objects.get(id=id)
-
         addressdetails.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 

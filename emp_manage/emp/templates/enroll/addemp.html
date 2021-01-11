@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -6,201 +7,71 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style type="text/css">
-        body {
-            font-family: "Poppins", sans-serif;
-            height: 100vh;
-        }
-        
-        .wrapper {
-            display: flex;
-            align-items: center;
-            flex-direction: column;
-            justify-content: center;
-            width: 100%;
-            min-height: 100%;
-            padding: 20px;
-        }
-        
-        #formContent {
-            -webkit-border-radius: 10px 10px 10px 10px;
-            border-radius: 10px 10px 10px 10px;
-            background: #fff;
-            padding: 30px;
-            width: 90%;
-            max-width: 450px;
-            position: relative;
-            padding: 0px;
-            -webkit-box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-            box-shadow: 0 30px 60px 0 rgba(0, 0, 0, 0.3);
-            text-align: center;
-        }
-        
-        #backview {
-            color: white;
-            background-color: #56baed;
-            text-align: center;
-        }
-        
-        #add {
-            background-color: #56baed;
-            border: none;
-            color: white;
-            padding: 7px 80px;
-            text-align: center;
-            text-decoration: none;
-            display: inline-block;
-            text-transform: uppercase;
-            font-size: 13px;
-            -webkit-box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-            box-shadow: 0 10px 30px 0 rgba(95, 186, 233, 0.4);
-            -webkit-border-radius: 5px 5px 5px 5px;
-            border-radius: 5px 5px 5px 5px;
-            margin: 5px 20px 40px 20px;
-            -webkit-transition: all 0.3s ease-in-out;
-            -moz-transition: all 0.3s ease-in-out;
-            -ms-transition: all 0.3s ease-in-out;
-            -o-transition: all 0.3s ease-in-out;
-            transition: all 0.3s ease-in-out;
-        }
-        
-        .forms {
-            border: 1px solid black;
-            padding: 10px;
-        }
+
     </style>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script type="text/javascript">
-        var URL = "classproduct/";
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
-        $(document).ready(function() {
-            $("#backview").click(function() {
-                location.href = "/";
-            });
-        });
-
-        function getCourse() {
-            $.getJSON(URL + $("#addressdetails").val())
-                .done(showCourse) // on success - 200
-                .fail(function() // on failure - 404
-                    {
-                        alert("Sorry! Course Not Found!");
-                    }
-                );
-        }
-
-        function showCourse(course) {
-            $("#first_name").val(course.first_name)
-            $("#last_name").val(course.last_name)
-            $("#username").val(course.username)
-            $("#date_of_birth").val(course.date_of_birth)
-            $("#gender").val(course.gender)
-            $("#email_address").val(course.email_address)
-            $("#contact_number").val(course.contact_number)
-            $("#address_line_1").val(course.address_line_1),
-                $("#address_line_2").val(course.address_line_2),
-                $("#city").val(course.city),
-                $("#country").val(course.country),
-                $("#pincode").val(course.pincode),
-                $("#deleted").val(course.deleted)
-        }
-
-        function addCourse() {
-            $.ajax({
-                "url": URL,
-                "data": {
-                    "first_name": $("#first_name").val(),
-                    "last_name": $("#last_name").val(),
-                    "username": $("#username").val(),
-                    "date_of_birth": $("#date_of_birth").val(),
-                    "gender": $("#gender").val(),
-                    "email_address": $("#email_address").val(),
-                    "contact_number": $("#contact_number").val(),
-                    "address_line_1": $("#address_line_1").val(),
-                    "address_line_2": $("#address_line_2").val(),
-                    "city": $("#city").val(),
-                    "country": $("#country").val(),
-                    "pincode": $("#pincode").val(),
-                    "deleted": $("#deleted").val()
-                },
-                "type": "post",
-                "headers": {
-                    "X-CSRFToken": '{{ csrf_token }}'
-                },
-                "success": add_success,
-                "error": add_error
-            }); // ajax()
-        }
-
-        function add_success() {
-            alert("Added course Successfully");
-        }
-
-        function add_error() {
-            alert("Could not add course!");
-        }
-    </script>
+    <script src="{% static 'js/addemp.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/addemp.css' %}">
 </head>
 
 <body>
+    {% block content %}
+    <div class="head">
+        <h1>ADD EMPLOYEES DETAILS</h1>
+    </div>
     <div class="wrapper fadeInDown">
-        <div id="formContent">
-            <center>
-                <button id="backview">BackToList</button>
-                <p/>
-                <br> first_name:
+        <div class="form-container">
+
+            <button id="backview">BackToList</button>
+            <form action="">
+
                 <br>
-                <input type="text" id="first_name">
-                <br> last_name:
                 <br>
-                <input type="text" id="last_name">
-                <br> UserName:
+                <input type="text" id="first_name" placeholder="first name">
                 <br>
-                <input type="text" id="username">
-                <br> date_of_birth:
                 <br>
-                <input type="date" id="date_of_birth">
-                <br> gender
+                <input type="text" id="last_name" placeholder="last name">
                 <br>
+                <br>
+                <input type="text" id="username" placeholder="user name">
+                <br>
+                <br>
+                <input type="date" id="date_of_birth" placeholder="dob">
                 <select name="gender" id="gender">
                 <option value="M">Male</option>
                 <option value="F">Female</option>
                 <option value="U">Unisex/parody</option>
                 </select>
-                <br> email_address:
                 <br>
-                <input type="email_address" id="email_address">
-                <br> contact_number Number:
                 <br>
-                <input type="tel" id="contact_number" pattern="[0-9]{10}" required>
-                <br> address1
+                <input type="email_address" id="email_address" placeholder="email">
+                <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
                 <br>
-                <input type="text" id="address_line_1">
-                <br> address2
                 <br>
-                <input type="text" id="address_line_2">
-                <br> city
+                <input type="text" id="address_line_1" placeholder="address1">
+                <input type="text" id="address_line_2" placeholder="address2">
                 <br>
-                <input type="text" id="city">
-                <br> country
                 <br>
-                <input type="text" id="country">
-                <br> pincode
+                <input type="text" id="city" placeholder="city">
+                <input type="text" id="country" placeholder="country">
                 <br>
-                <input type="text" id="pincode">
+                <br>
+                <input type="text" id="pincode" placeholder="pincode">
 
-                <br> Deleted
+                <br>
                 <br>
 
-                <input type="checkbox" id="deleted">
+                <input type="checkbox" id="deleted" placeholder="deleted">
                 <br>
-                <p/>
-                <button id="add" onclick="addCourse()">Add</button>
+            </form>
+            <p/>
+            <button id="add" onclick="addCourse()">Add</button>
 
-                <p/>
-            </center>
+            <p/>
+
         </div>
     </div>
+    {% endblock %}
 </body>
 
 </html>
