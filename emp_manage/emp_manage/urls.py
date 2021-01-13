@@ -41,6 +41,6 @@ urlpatterns = [
     path('rest_client1/', clients),
     
     
-    
+    # path('test1/', logins),
     path('test/',Management.as_view(), name='post'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -2,12 +2,12 @@ from __future__ import unicode_literals
 from django.db import models
 
 
-class EmployeeStatus(models.Model):
+# class EmployeeStatus(models.Model):
 
-    status = models.CharField(max_length=10)
+#     status = models.CharField(max_length=10)
 
-    def __str__(self):
-        return str(self.status)
+#     def __str__(self):
+#         return str(self.status)
 
 
 class AddressDetails(models.Model):
@@ -22,12 +22,12 @@ class AddressDetails(models.Model):
         return str(self.id)
 
 
-class Roles(models.Model):
-    name = models.CharField(max_length=20)
-    description = models.CharField(max_length=60)
+# class Roles(models.Model):
+#     name = models.CharField(max_length=20)
+#     description = models.CharField(max_length=60)
 
-    def __str__(self):
-        return self.name, self.description
+#     def __str__(self):
+#         return self.name, self.description
 
 
 class Employees(models.Model):
@@ -48,34 +48,34 @@ class Employees(models.Model):
         return str(self.id)
 
 
-class Documents(models.Model):
-    # id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=150)
-    guid = models.CharField(max_length=36)
-    description = models.CharField(max_length=255)
+# class Documents(models.Model):
+#     # id = models.AutoField(primary_key=True)
+#     name = models.CharField(max_length=150)
+#     guid = models.CharField(max_length=36)
+#     description = models.CharField(max_length=255)
 
 
-class DocumentVersions(models.Model):
-    documents = models.ForeignKey(Documents, on_delete=models.CASCADE)
-    guid = models.CharField(max_length=50)
-    version = models.SmallIntegerField(6)
-    uploaded_time = models.DateTimeField()
-    extension = models.CharField(max_length=9)
-    content_type = models.CharField(max_length=75)
-    size = models.IntegerField()
-    uploaded_by = models.ForeignKey(Employees, on_delete=models.CASCADE)
+# class DocumentVersions(models.Model):
+#     documents = models.ForeignKey(Documents, on_delete=models.CASCADE)
+#     guid = models.CharField(max_length=50)
+#     version = models.SmallIntegerField(6)
+#     uploaded_time = models.DateTimeField()
+#     extension = models.CharField(max_length=9)
+#     content_type = models.CharField(max_length=75)
+#     size = models.IntegerField()
+#     uploaded_by = models.ForeignKey(Employees, on_delete=models.CASCADE)
 
 
-class EmployeeDocument(models.Model):
+# class EmployeeDocument(models.Model):
 
-    employees = models.ForeignKey(Employees, on_delete=models.CASCADE)
-    documentversion = models.ForeignKey(
-        DocumentVersions, on_delete=models.CASCADE)
+#     employees = models.ForeignKey(Employees, on_delete=models.CASCADE)
+#     documentversion = models.ForeignKey(
+#         DocumentVersions, on_delete=models.CASCADE)
 
 
-class DocumentFolder(models.Model):
+# class DocumentFolder(models.Model):
 
-    name = models.CharField(max_length=45)
-    parent = models.ForeignKey('self', on_delete=models.PROTECT)
-    documentversions = models.ForeignKey(
-        DocumentVersions, on_delete=models.CASCADE)
+#     name = models.CharField(max_length=45)
+#     parent = models.ForeignKey('self', on_delete=models.PROTECT)
+#     documentversions = models.ForeignKey(
+#         DocumentVersions, on_delete=models.CASCADE)

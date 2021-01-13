@@ -1,5 +1,4 @@
 var URL = "classproduct/";
-var csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
 $(document).ready(function() {
     $("#back-update").click(function() {
@@ -89,10 +88,12 @@ function updateCourse() {
             "country": $("#country").val(),
             "pincode": $("#pincode").val(),
             "deleted": $("#deleted").val(),
+            'csrfmiddlewaretoken': $(".update-employee").find('input[name=csrfmiddlewaretoken]').val()
         },
         "type": "put",
         "headers": {
-            "X-CSRFToken": '{{ csrf_token }}'
+            "X-CSRFToken": $(".update-employee").find('input[name=csrfmiddlewaretoken]').val()
+
         },
         "success": update_success,
         "error": update_error

@@ -71,6 +71,9 @@ TEMPLATES = [
     },
 ]
 
+
+
+
 WSGI_APPLICATION = 'emp_manage.wsgi.application'
 
 

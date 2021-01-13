@@ -1,10 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect
-from django.http import Http404
+from django.http.response import Http404, JsonResponse
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login, logout
-from .models import Employees, Documents, AddressDetails, EmployeeStatus, Roles, DocumentVersions, EmployeeDocument, DocumentFolder
+from .models import Employees, AddressDetails
 from rest_framework.views import APIView
-from .serializers import EmployeesSerializer, DocumentSerializer, AddressDetailsSerializer, RoleSerializer, GetEmployeesSerializer, GetEmployeesSerializer1
+from django.contrib.contenttypes.models import ContentType
+from .serializers import EmployeesSerializer,  AddressDetailsSerializer,  GetEmployeesSerializer, GetEmployeesSerializer1
 from django.contrib import messages
 from .forms import SignUpForm
 from rest_framework import status
@@ -17,6 +18,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required, permission_required
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import User
+from django.contrib.auth.models import Permission
+
 # Create your views here.
 
 # signup function
@@ -43,15 +47,35 @@ def sign_up(request):
 
 @unauthenticated_user
 def user_login(request):
+    # print(request)
     if request.method == 'POST':
+        
         fm = AuthenticationForm(request=request, data=request.POST)
+        
         if fm.is_valid():
             uname = fm.cleaned_data['username']
             upass = fm.cleaned_data['password']
             user = authenticate(username=uname, password=upass)
+            # u = User.objects.create_user(username=uname)
+            # content_type = ContentType.objects.get_for_model(BlogPost)
+            # permission = Permission.objects.get(name='')
+            # u.user_permissions.add(permission)
+            # u.has_perm('')
+            
+            
             if user is not None:
                 login(request, user)
-                return redirect('/')
+                group_permissions = list(Permission.objects.filter(group__user=request.user).values("codename"))
+                # print(group_permissions)
+                perm = []
+                for group_permission in group_permissions:
+                    perm.append(group_permission["codename"])
+                    print(group_permission)
+                
+        
+                
+                # return render(request, 'enroll/showemp.html', {'perm': perm} )
+                return JsonResponse({'perm': perm}, status=200)
             else:
                 messages.info(request, 'Username OR password is incorrect')
     else:
@@ -78,11 +102,11 @@ class Management(APIView):
     # permissions for user and admin
     @method_decorator(login_required(login_url='login'), name='dispatch')
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
-    @csrf_exempt
+    
     def post(self, request):
         json_data = request.data
         details = {"employees": [{"first_name": json_data["first_name"], "last_name":json_data["last_name"], "username": json_data["username"],
-                                  "date_of_birth":json_data["date_of_birth"], "gender": json_data["gender"], "email_address":json_data["email_address"], "contact_number":json_data["contact_number"], "deleted": json_data["deleted"]}], "address_line_1": json_data["address_line_1"], "address_line_2": json_data["address_line_2"], "city": json_data["city"], "country": json_data["country"], "pincode": json_data["pincode"]}
+                                "date_of_birth":json_data["date_of_birth"], "gender": json_data["gender"], "email_address":json_data["email_address"], "contact_number":json_data["contact_number"], "deleted": json_data["deleted"]}], "address_line_1": json_data["address_line_1"], "address_line_2": json_data["address_line_2"], "city": json_data["city"], "country": json_data["country"], "pincode": json_data["pincode"]}
 
         address = AddressDetailsSerializer(data=details)
         if address.is_valid():
@@ -112,19 +136,24 @@ class ManagementDetails(APIView):
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
     def put(self, request, id):
 
-        addressdetails = self.get_object(id=id)
+        # addressdetails = AddressDetails.objects.filter(id=id).update(address_line_1, address_line_2, city, country, pincode)
+        
+        employees = Employees.objects.filter(id=id).update(first_name="pravin", last_name="kukreja", addressdetails__address_line_1 = "kalyan")
+        print(employees)
         serializer = GetEmployeesSerializer1(addressdetails, data=request.data)
+        print(serializer)
         if serializer.is_valid():
             serializer.save()
             print(serializer.data)
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+    from django.views.decorators.csrf import csrf_exempt
     @method_decorator(login_required(login_url='login'), name='dispatch')
     @method_decorator(allowed_users(allowed_roles=['admin']), name='dispatch')
-    @csrf_protect
+    @csrf_exempt
     def delete(self, request, id):  # to delete record from table
-        print(request.user.is_authenticated)
+        # print(request.user.is_authenticated)
         addressdetails = AddressDetails.objects.get(id=id)
         addressdetails.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
@@ -144,3 +173,5 @@ def clients2(request):
 
 def clients3(request):
     return render(request, "enroll/update.html")
+
+

@@ -1,5 +1,26 @@
 var URL = "classproduct/";
-var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+// var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
+// function getCookie(name) {
+//     var cookieValue = null;
+
+//     if (document.cookie && document.cookie != '') {
+//         var cookie = document.cookie.split(';');
+
+//         for (var i = 0; i < cookie.length; i++) {
+//             var cookie = cookies[i].trim();
+
+//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
+//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                 break;
+//             }
+//         }
+//     }
+//     return cookieValue;
+// };
+
+// var csrfToken = getcookie('csrftoken')
+
 
 $(document).ready(function() {
     $("#backview").click(function() {
@@ -34,7 +55,7 @@ function showCourse(course) {
 }
 
 function addCourse() {
-    var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+
     $.ajax({
         "url": URL,
         "data": {
@@ -51,15 +72,19 @@ function addCourse() {
             "country": $("#country").val(),
             "pincode": $("#pincode").val(),
             "deleted": $("#deleted").val(),
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
+            'csrfmiddlewaretoken': $(".add-employee").find('input[name=csrfmiddlewaretoken]').val()
+
         },
         "type": "post",
         "headers": {
-            "X-CSRFToken": '{{ csrf_token }}'
+            "X-CSRFToken": $(".add-employee").find('input[name=csrfmiddlewaretoken]').val()
+
         },
         "success": add_success,
         "error": add_error
+
     }); // ajax()
+
 }
 
 function add_success() {

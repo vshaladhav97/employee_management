@@ -9,13 +9,17 @@
     <style type="text/css">
 
     </style>
+
+
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="{% static 'js/addemp.js' %}"></script>
+
     <link rel="stylesheet" href="{% static 'css/addemp.css' %}">
 </head>
 
 <body>
     {% block content %}
+
     <div class="head">
         <h1>ADD EMPLOYEES DETAILS</h1>
     </div>
@@ -23,8 +27,8 @@
         <div class="form-container">
 
             <button id="backview">BackToList</button>
-            <form action="">
-
+            <form action="" class="add-employee">
+                {% csrf_token %}
                 <br>
                 <br>
                 <input type="text" id="first_name" placeholder="first name">
@@ -63,7 +67,9 @@
 
                 <input type="checkbox" id="deleted" placeholder="deleted">
                 <br>
+
             </form>
+
             <p/>
             <button id="add" onclick="addCourse()">Add</button>
 

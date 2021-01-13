@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script>
+        var perm = document.querySelector('#permissions1')
+        localStorage.setItem("permissions", perm)
+        console.log(localStorage.getItem("permissions"))
+    </script>
+</head>
+
+<body>
+    <p id="permissions"></p>
+
+    {% for i in perm %}
+    <p id="permissions1">{{i}}</p>
+    {% endfor %}
+</body>
+
+</html>

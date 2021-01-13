@@ -1,21 +1,17 @@
 from rest_framework import serializers
-from .models import Employees, Documents, AddressDetails, EmployeeStatus, DocumentVersions, EmployeeDocument, DocumentFolder, Roles
+from .models import Employees, AddressDetails
 
-class AddressDetailsSerializer1(serializers.ModelSerializer):
-    class Meta:
-        model = AddressDetails
-        fields = "__all__"
 
-class RoleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Roles
-        fields = "__all__"
+
+
 
 
 class EmployeesSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employees
         fields = ('first_name', 'last_name', 'username', 'date_of_birth', 'gender', 'email_address', 'contact_number', 'deleted','addressdetails')
+
+
 
 class GetEmployeesSerializer(serializers.ModelSerializer):
     addressdetails__address_line_1 = serializers.ReadOnlyField(source='addressdetails.address_line_1')
@@ -126,9 +122,41 @@ class AddressDetailsSerializer(serializers.ModelSerializer):
             employee.save()
         return instance
 
-
-
-class DocumentSerializer(serializers.ModelSerializer):
+class EmployeesSerializer1(serializers.ModelSerializer):
     class Meta:
-        model = Documents
-        fields = '__all__'
+        model = Employees
+        fields = ('id','first_name', 'last_name', 'username', 'date_of_birth', 'gender', 'email_address', 'contact_number', 'deleted','addressdetails')
+
+class AddressDetailsSerializer1(serializers.ModelSerializer):
+    # employees = GetEmployeesSerializer(many=True)
+    employees_address = EmployeesSerializer1(read_only=True)
+
+    class Meta:
+        model = AddressDetails
+        fields = ("id", "address_line_1", "address_line_2", "city", "country", "pincode","employees_address")
+        
+
+    def update(self, instance, validated_data):
+        employees_data = validated_data.pop('employees_address')
+        employees = (instance.employees_address).all()
+        employees = list(employees)
+        instance.address_line_1 = validated_data.get('address_line_1', instance.address_line_1)
+        instance.address_line_2 = validated_data.get('address_line_2', instance.address_line_2)
+        instance.city = validated_data.get('city', instance.city)
+        instance.country = validated_data.get('country', instance.country)
+        instance.pincode = validated_data.get('pincode', instance.pincode)
+        instance.save()
+
+        for employee_data in employees_data:
+            employee = employees.pop(0)
+            employee.first_name = employee_data.get('first_name', employee.first_name)
+            employee.last_name = employee_data.get('last_name', employee.last_name)
+            employee.username = employee_data.get('username', employee.username)
+            employee.date_of_birth = employee_data.get('date_of_birth', employee.date_of_birth)
+            employee.gender = employee_data.get('gender', employee.gender)
+            employee.email_address = employee_data.get('email_address', employee.email_address)
+            employee.contact_number = employee_data.get('contact_number', employee.contact_number)
+            employee.deleted = employee_data.get('deleted', employee.deleted)
+            employee.save()
+        return instance
+

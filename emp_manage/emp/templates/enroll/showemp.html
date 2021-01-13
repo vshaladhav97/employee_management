@@ -7,9 +7,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script>
-        var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-    </script>
     <script src="{% static 'js/showemp.js' %}"></script>
     <script src="{% static 'js/update.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/showemp.css' %}">
@@ -19,6 +16,7 @@
 
 <body>
     {% block content %}
+
     <div class="logout">
         <span>
             <a class="hello-msg" href="{% url 'logout' %}">Logout</a>
@@ -29,9 +27,7 @@
 
         <div class="head">
             <h1>Employee Management System</h1>
-
         </div>
-
         <div class="container ">
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
@@ -64,26 +60,20 @@
         <div class="head">
             <h1>UPDATE EMPLOYEES DETAILS</h1>
         </div>
-        <form class="form-container" action="">
-
+        <form action="" class="update-employee">
+            {% csrf_token %}
             <br>
-
             <label type="number" id="id" placeholder="id"></label>
             <br>
             <br>
-
             <input type="text" id="first_name" placeholder="first name">
-
             <input type="text" id="last_name" placeholder="last name">
             <br>
             <br>
-
             <input type="text" id="username" placeholder="user name">
             <br>
             <br>
-
             <input type="date" id="date_of_birth" placeholder="dob">
-
             <select name="gender" id="gender">
                     <option value="M">Male</option>
                     <option value="F">Female</option>
@@ -91,33 +81,26 @@
                 </select>
             <br>
             <br>
-
             <input type="email_address" id="email_address" placeholder="email">
-
             <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
             <br>
             <br>
-
             <input type="text" id="addressdetails" placeholder="addressdetails id">
             <br>
             <br>
-
             <input type="text" id="address_line_1" placeholder="address1">
             <input type="text" id="address_line_2" placeholder="address2">
             <br>
             <br>
-
             <input type="text" id="city" placeholder="city">
             <input type="text" id="country" placeholder="country">
             <br>
             <br>
             <input type="text" id="pincode" placeholder="pincode">
-
-
             <br>
             <p/>
             <button id="back-update">BACK</button>
-            <button onclick="updateCourse()">Update</button>
+            <button id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
             <p/>
         </form>
     </div>

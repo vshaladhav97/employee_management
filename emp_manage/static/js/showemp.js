@@ -1,14 +1,34 @@
 var URL = "classproduct/";
-var csrftoken = $("[name=csrfmiddlewaretoken]").val();
+// var csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
 
+
+function getCookie(name) {
+
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
 
 $(document).ready(function() {
     $(".update-form").hide()
     $("#adding").click(function() {
         location.href = "/create/";
     });
+
 });
+
+
 
 
 
@@ -16,6 +36,7 @@ $(document).ready(function() {
     $("#updating").click(function() {
         location.href = "/update/";
     });
+
 });
 
 
@@ -50,51 +71,72 @@ function showCourse(course) {
 function showCourses(courses) {
 
 
-    $(document).ready(function() {
-        $(document).on("click", ".editable", function() {
-            var value = $(this).text();
-            var input = "<input type='text' class='input-data' value='" + value + "' class='form-control'>";
-            $(this).html(input);
-            $(this).removeClass("editable")
-        });
 
-        $(document).on("blur", ".input-data", function(e) {
-            var value = $(this).val();
-            var td = $(this).parent("td");
-            $(this).remove();
-            td.html(value);
-            td.addClass("editable");
-            var type = td.data("type");
-            sendToserver(td.data("id"), value);
-        });
-
-        $(document).on("keypress", ".input-data", function(e) {
-            var key = e.which;
-            if (key == 13) {
-                var value = $(this).val();
-                var td = $(this).parent("td");
-                $(this).remove();
-                td.html(value);
-                td.addClass("editable");
-                var type = td.data("type");
-                sendToserver(td.data("id"), value);
-            }
-        });
-
-        function sendToserver(id, value, type) {
-            var firstname = value
-            console.log(firstname)
-
-
-        }
-
-    });
 
     $(document).ready(function() {
         $("#refresh").click(function() {
             location.reload();
         });
+        $('#view').click(function() {
+            $('#first_name').attr("disabled", "disabled");
+            $('#last_name').attr("disabled", "disabled");
+            $('#username').attr("disabled", "disabled");
+            $('#date_of_birth').attr("disabled", "disabled");
+            $('#gender').attr("disabled", "disabled");
+            $('#email_address').attr("disabled", "disabled");
+            $('#contact_number').attr("disabled", "disabled");
+            $('#addressdetails').attr("disabled", "disabled");
+            $('#address_line_1').attr("disabled", "disabled");
+            $('#address_line_2').attr("disabled", "disabled");
+            $('#city').attr("disabled", "disabled");
+            $('#country').attr("disabled", "disabled");
+            $('#pincode').attr("disabled", "disabled");
+
+            document.getElementById('update-butt').style.visibility = 'hidden';
+        });
+
+
+
+        $(".update").hide()
+        $(".delete").hide()
+        $(".update-inner").hide()
+        $("#adding").hide()
+        set_permissions()
+
+
+
     });
+
+    function set_permissions() {
+        var get_permissions = localStorage.getItem("permissions")
+        var permissions = JSON.parse(get_permissions)
+        console.log(permissions)
+            // if (permissions.includes("view_employees")) {
+            //     $(".update").show()
+
+        // }
+        // 
+
+        if (permissions.includes("change_employees")) {
+            $(".update").show()
+
+        }
+        if (permissions.includes("delete_employees")) {
+            $(".delete").show()
+
+        }
+        if (permissions.includes("change_employees")) {
+            $(".update-inner").show()
+
+        }
+
+        if (permissions.includes("add_employees")) {
+            $("#adding").show()
+
+        }
+
+
+    }
 
 
 
@@ -107,7 +149,7 @@ function showCourses(courses) {
         function(idx, course) {
             $("#courserows").append(
 
-                "<tr><td><button class='button1' onclick='changes(" + course.id + ")''>Update</button><button id = 'refresh' class='button1' onclick='deleteCourse(" + course.addressdetails + ")'>Delete</button></td><td class='editable' data-id=" + course.id + " data-type='first_name'>" +
+                "<tr><td><button class='button1 update' onclick='changes(" + course.id + ")'>Update</button><button id = 'refresh' class='button1 delete' onclick='deleteCourse(" + course.addressdetails + ")'>Delete</button><buttons class='button1' id='view' onclick='changes1(" + course.id + ")'>View</buttons></td><td class='editable' data-id=" + course.id + " data-type='first_name'>" +
 
                 course.first_name +
                 "</td><td  class='editable' data-id=" + course.id + " data-type='last_name'>" +
@@ -196,6 +238,7 @@ function changes(id) {
             console.log(data)
             showCourse(data)
 
+
         }) // on success - 200
 
     .fail(function() // on failure - 404
@@ -205,6 +248,24 @@ function changes(id) {
     );
 }
 
+function changes1(id) {
+    $.getJSON("update/classproduct/" + id)
+        .done(function(data) {
+            $('.employee-table').hide()
+            $('.update-form').show()
+            console.log(data)
+            showCourse(data)
+
+
+
+        }) // on success - 200
+
+    .fail(function() // on failure - 404
+        {
+            alert("Sorry! Course Not Found!");
+        }
+    );
+}
 
 
 function updateCourse() {
@@ -225,10 +286,12 @@ function updateCourse() {
             "country": $("#country").val(),
             "pincode": $("#pincode").val(),
             "deleted": $("#deleted").val(),
+            'csrfmiddlewaretoken': $(".add-employee").find('input[name=csrfmiddlewaretoken]').val()
         },
         "type": "put",
         "headers": {
-            "X-CSRFToken": '{{ csrf_token }}'
+            "X-CSRFToken": $(".update-employee").find('input[name=csrfmiddlewaretoken]').val()
+
         },
         "success": update_success,
         "error": update_error
@@ -248,8 +311,11 @@ function deleteCourse(id) {
     $.ajax({
         "url": URL + id,
         "type": "delete",
+        "data": {
+            'csrfmiddlewaretoken': getCookie("csrftoken")
+        },
         "headers": {
-            'csrfmiddlewaretoken': '{{ csrf_token }}'
+            'X-CSRFToken': getCookie("csrftoken")
         },
         "success": delete_success,
         "error": delete_error
