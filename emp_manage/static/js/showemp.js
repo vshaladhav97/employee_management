@@ -1,4 +1,5 @@
 var URL = "classproduct/";
+var URL1 = "update/classproduct/";
 // var csrftoken = $("[name=csrfmiddlewaretoken]").val();
 
 
@@ -268,9 +269,11 @@ function changes1(id) {
 }
 
 
-function updateCourse() {
+function updateCourse(e) {
+    console.log(e)
     $.ajax({
-        "url": URL + $("#id").val(),
+
+        "url": "/update-employee/" + $("#addressdetails").val(),
         "data": {
             "id": $("#id").val(),
             "first_name": $("#first_name").val(),
@@ -288,7 +291,8 @@ function updateCourse() {
             "deleted": $("#deleted").val(),
             'csrfmiddlewaretoken': $(".add-employee").find('input[name=csrfmiddlewaretoken]').val()
         },
-        "type": "put",
+        "type": "post",
+        "contentType": 'application/json',
         "headers": {
             "X-CSRFToken": $(".update-employee").find('input[name=csrfmiddlewaretoken]').val()
 
@@ -296,6 +300,7 @@ function updateCourse() {
         "success": update_success,
         "error": update_error
     }); // ajax()
+    return False;
 }
 
 function update_success() {

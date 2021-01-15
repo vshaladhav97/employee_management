@@ -8,7 +8,6 @@
     <title>Document</title>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
     <script src="{% static 'js/showemp.js' %}"></script>
-    <script src="{% static 'js/update.js' %}"></script>
     <link rel="stylesheet" href="{% static 'css/showemp.css' %}">
     <link rel="stylesheet" href="{% static 'css/update.css' %}">
 
@@ -60,49 +59,51 @@
         <div class="head">
             <h1>UPDATE EMPLOYEES DETAILS</h1>
         </div>
-        <form action="" class="update-employee">
-            {% csrf_token %}
-            <br>
-            <label type="number" id="id" placeholder="id"></label>
-            <br>
-            <br>
-            <input type="text" id="first_name" placeholder="first name">
-            <input type="text" id="last_name" placeholder="last name">
-            <br>
-            <br>
-            <input type="text" id="username" placeholder="user name">
-            <br>
-            <br>
-            <input type="date" id="date_of_birth" placeholder="dob">
-            <select name="gender" id="gender">
+        <div class="form-allign">
+            <form action="" class="update-employee" method="post">
+                {% csrf_token %}
+                <br>
+                <label type="number" id="id" placeholder="id"></label>
+                <br>
+                <br>
+                <input type="text" id="first_name" placeholder="first name">
+                <input type="text" id="last_name" placeholder="last name">
+                <br>
+                <br>
+                <input type="text" id="username" placeholder="user name">
+                <br>
+                <br>
+                <input type="date" id="date_of_birth" placeholder="dob">
+                <select name="gender" id="gender">
                     <option value="M">Male</option>
                     <option value="F">Female</option>
                     <option value="U">Unisex/parody</option>
                 </select>
-            <br>
-            <br>
-            <input type="email_address" id="email_address" placeholder="email">
-            <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
-            <br>
-            <br>
-            <input type="text" id="addressdetails" placeholder="addressdetails id">
-            <br>
-            <br>
-            <input type="text" id="address_line_1" placeholder="address1">
-            <input type="text" id="address_line_2" placeholder="address2">
-            <br>
-            <br>
-            <input type="text" id="city" placeholder="city">
-            <input type="text" id="country" placeholder="country">
-            <br>
-            <br>
-            <input type="text" id="pincode" placeholder="pincode">
-            <br>
-            <p/>
-            <button id="back-update">BACK</button>
-            <button id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
-            <p/>
-        </form>
+                <br>
+                <br>
+                <input type="email_address" id="email_address" placeholder="email">
+                <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
+                <br>
+                <br>
+                <input type="text" id="addressdetails" placeholder="addressdetails id">
+                <br>
+                <br>
+                <input type="text" id="address_line_1" placeholder="address1">
+                <input type="text" id="address_line_2" placeholder="address2">
+                <br>
+                <br>
+                <input type="text" id="city" placeholder="city">
+                <input type="text" id="country" placeholder="country">
+                <br>
+                <br>
+                <input type="text" id="pincode" placeholder="pincode">
+                <br>
+                <p/>
+                <button id="back-update">BACK</button>
+                <button id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
+                <p/>
+            </form>
+        </div>
     </div>
     {% endblock %}
 </body>

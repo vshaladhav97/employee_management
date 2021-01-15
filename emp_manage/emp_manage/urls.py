@@ -19,7 +19,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.conf.urls import url
 from django.contrib.auth.decorators import login_required, permission_required
-from emp.views import sign_up, user_login, Management, clients, clients1, clients2, clients3, ManagementDetails, logoutUser
+from emp.views import sign_up, user_login, Management, clients, clients1, clients2, clients3, ManagementDetails, logoutUser, save_data_test
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -40,7 +40,7 @@ urlpatterns = [
     path('update/classproduct/<int:id>', ManagementDetails.as_view()),
     path('rest_client1/', clients),
     
-    
+    path('update-employee/<int:id>',save_data_test, name='update-employee'),
     # path('test1/', logins),
     path('test/',Management.as_view(), name='post'),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

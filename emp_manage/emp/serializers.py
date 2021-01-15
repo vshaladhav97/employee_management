@@ -135,7 +135,6 @@ class AddressDetailsSerializer1(serializers.ModelSerializer):
         model = AddressDetails
         fields = ("id", "address_line_1", "address_line_2", "city", "country", "pincode","employees_address")
         
-
     def update(self, instance, validated_data):
         employees_data = validated_data.pop('employees_address')
         employees = (instance.employees_address).all()
@@ -160,3 +159,34 @@ class AddressDetailsSerializer1(serializers.ModelSerializer):
             employee.save()
         return instance
 
+    # def update(self, instance, validated_data):
+    #     employees_address = validated_data.get('employees_address')
+    #     instance.employees_address.first_name = employees_address.get('first_name')
+    #     instance.employees_address.last_name = employees_address.get('last_name')
+    #     instance.employees_address.username = employees_address.get('username')
+    #     instance.employees_address.date_of_birth = employees_address.get('date_of_birth')
+    #     instance.employees_address.gender = employees_address.get('gender')
+    #     instance.employees_address.email_address = employees_address.get('email_address')
+    #     instance.employees_address.contact_number = employees_address.get('contact_number')
+    #     instance.employees_address.deleted = employees_address.get('deleted')
+    #     instance.employees_address.save()
+    #     return instance
+    
+    
+    # def update(self, instance, validated_data):
+    # user_data = validated_data.pop('employees_address')
+    # user_serializer = EmployeesSerializer1()
+    # super(self.__class__, self).update(instance,validated_data)
+    # super(EmployeesSerializer1,user_serializer).update(instance.employees_address,user_data)
+    # return instance
+    
+    
+class AddressDetailupdateSerializer(serializers.ModelSerializer):
+    
+    class Meta:
+        model = AddressDetails
+        fields = "__all__"
+            
+            
+    
+        
