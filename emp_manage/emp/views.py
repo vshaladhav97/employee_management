@@ -209,25 +209,42 @@ def save_data_test(request, id):
     # data = {
     # "id": 60, "address_line_1": "little gibbs", "address_line_2": "malabar hill", "city": "Mumbai", "country": "india", "pincode": "400006", "employees_address": {"id": 41,"first_name": "ritin vijay","last_name": "sharma","username": "rikki","date_of_birth": "1996-01-10","gender": "M","email_address": "riki@gmail.com","contact_number": "7977361387", "addressdetails":60 ,"deleted": True}}
     if request.method == "POST":
+        json_data = request.POST
+        print(json_data)
+        print(id)
         address = AddressDetails.objects.get(id=id)
-        data = {"id": 60, "address_line_1": "li gibbs", "address_line_2": "malabar hill",
-                "city": "Mumbai", "country": "india", "pincode": "400006"}
+        data = {
+            "id": json_data["id"],
+            "address_line_1": json_data["address_line_1"], 
+            "address_line_2": json_data["address_line_2"], 
+            "city": json_data["city"], 
+            "country": json_data["country"], 
+            "pincode": json_data["pincode"]
+        }
         music = AddressDetailupdateSerializer(data=data, instance=address)
-        employee = Employees.objects.get(pk=id)
-        emp_data = {"id": 41,
-                    "first_name": "ritin",
-                    "last_name": "sharma",
-                    "username": "rikki",
-                    "date_of_birth": "1996-01-10",
-                    "gender": "M",
-                    "email_address": "riki@gmail.com",
-                    "contact_number": "7977361387", 
-                    "addressdetails":60 ,
-                    "deleted": True}
+        employee = Employees.objects.get(id=json_data["id"])
+        print(json_data["id"])
+        print(json_data["deleted"])
+        emp_data = {
+            "id": json_data["id"],
+            "first_name": json_data["first_name"],
+            "last_name":json_data["last_name"],
+            "username": json_data["username"],
+            "date_of_birth":json_data["date_of_birth"],
+            "gender": json_data["gender"],
+            "email_address":json_data["email_address"],
+            "contact_number":json_data["contact_number"],
+            # "addressdetails": json_data["addressdetails"],
+            "deleted": json_data["deleted"]
+        }
         empserializer = EmployeesSerializer1(data=emp_data, instance=employee)
-    
+        
         print(music.is_valid())
+        print(empserializer.is_valid())
+        # print(empserializer.)
         if music.is_valid() and empserializer.is_valid():
             music.save()
             empserializer.save()
-            return HttpResponse("success")
+            # return HttpResponse("success")
+            return JsonResponse({"success":"success"} ,status=status.HTTP_201_CREATED)
+        return JsonResponse({"error":"error"},status=status.HTTP_400_BAD_REQUEST)

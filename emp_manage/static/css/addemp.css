@@ -60,3 +60,11 @@ button {
     align-items: center;
     text-align-last: center;
 }
+
+#add {
+    cursor: pointer;
+}
+
+#backview {
+    cursor: pointer;
+}

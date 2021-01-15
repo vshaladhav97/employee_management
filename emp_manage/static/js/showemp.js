@@ -37,8 +37,8 @@ $(document).ready(function() {
     $("#updating").click(function() {
         location.href = "/update/";
     });
-
 });
+
 
 
 
@@ -86,6 +86,7 @@ function showCourses(courses) {
             $('#gender').attr("disabled", "disabled");
             $('#email_address').attr("disabled", "disabled");
             $('#contact_number').attr("disabled", "disabled");
+            $('#deleted').attr("disabled", "disabled");
             $('#addressdetails').attr("disabled", "disabled");
             $('#address_line_1').attr("disabled", "disabled");
             $('#address_line_2').attr("disabled", "disabled");
@@ -94,6 +95,7 @@ function showCourses(courses) {
             $('#pincode').attr("disabled", "disabled");
 
             document.getElementById('update-butt').style.visibility = 'hidden';
+
         });
 
 
@@ -103,6 +105,7 @@ function showCourses(courses) {
         $(".update-inner").hide()
         $("#adding").hide()
         set_permissions()
+
 
 
 
@@ -221,13 +224,14 @@ function showCourse(course) {
     $("#gender").val(course.gender)
     $("#email_address").val(course.email_address)
     $("#contact_number").val(course.contact_number)
+    $("#deleted").val(course.deleted)
     $("#addressdetails").val(course.addressdetails),
         $("#address_line_1").val(course.addressdetails__address_line_1),
         $("#address_line_2").val(course.addressdetails__address_line_2),
         $("#city").val(course.addressdetails__city),
         $("#country").val(course.addressdetails__country),
-        $("#pincode").val(course.addressdetails__pincode),
-        $("#deleted").val(course.addressdetails__deleted)
+        $("#pincode").val(course.addressdetails__pincode)
+
 }
 
 
@@ -269,8 +273,8 @@ function changes1(id) {
 }
 
 
-function updateCourse(e) {
-    console.log(e)
+function updateCourse() {
+    // console.log(e)
     $.ajax({
 
         "url": "/update-employee/" + $("#addressdetails").val(),
@@ -283,6 +287,7 @@ function updateCourse(e) {
             "gender": $("#gender").val(),
             "email_address": $("#email_address").val(),
             "contact_number": $("#contact_number").val(),
+            "deleted": $("#deleted").val(),
             "address_line_1": $("#address_line_1").val(),
             "address_line_2": $("#address_line_2").val(),
             "city": $("#city").val(),
@@ -292,7 +297,6 @@ function updateCourse(e) {
             'csrfmiddlewaretoken': $(".add-employee").find('input[name=csrfmiddlewaretoken]').val()
         },
         "type": "post",
-        "contentType": 'application/json',
         "headers": {
             "X-CSRFToken": $(".update-employee").find('input[name=csrfmiddlewaretoken]').val()
 
@@ -300,7 +304,8 @@ function updateCourse(e) {
         "success": update_success,
         "error": update_error
     }); // ajax()
-    return False;
+
+
 }
 
 function update_success() {

@@ -60,7 +60,7 @@
             <h1>UPDATE EMPLOYEES DETAILS</h1>
         </div>
         <div class="form-allign">
-            <form action="" class="update-employee" method="post">
+            <form action="" id="myForm" class="update-employee" method="post">
                 {% csrf_token %}
                 <br>
                 <label type="number" id="id" placeholder="id"></label>
@@ -85,6 +85,9 @@
                 <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
                 <br>
                 <br>
+                <label><input type="checkbox" id="deleted" placeholder="deleted" >deleted</label>
+                <br>
+                <br>
                 <input type="text" id="addressdetails" placeholder="addressdetails id">
                 <br>
                 <br>
@@ -94,18 +97,20 @@
                 <br>
                 <input type="text" id="city" placeholder="city">
                 <input type="text" id="country" placeholder="country">
+
                 <br>
                 <br>
                 <input type="text" id="pincode" placeholder="pincode">
                 <br>
                 <p/>
                 <button id="back-update">BACK</button>
-                <button id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
+                <button type="submit" id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
                 <p/>
             </form>
         </div>
     </div>
     {% endblock %}
 </body>
+
 
 </html>

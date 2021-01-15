@@ -76,14 +76,15 @@
 
 <body>
     <div class="wrapper fadeInDown">
-        <div id="formContent"></div>
-        <form class="forms" action="" method="post" nonvalidate>
-            {% csrf_token %} {% for fm in form %} {{fm.label}} <br> {{fm}} {{fm.errors|striptags}}
-            <br>
-            <br> {% endfor %}
-            <input type="submit" value="submit">
+        <div id="formContent">
+            <form class="forms" action="" method="post" nonvalidate>
+                {% csrf_token %} {% for fm in form %} {{fm.label}} <br> {{fm}} {{fm.errors|striptags}}
+                <br>
+                <br> {% endfor %}
+                <input type="submit" value="submit">
 
-        </form>
+            </form>
+        </div>
         <a href="{% url 'login' %}">Login?</a>
     </div>
     </div>
