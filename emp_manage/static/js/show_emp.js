@@ -26,6 +26,12 @@ $(document).ready(function() {
     $("#adding").click(function() {
         location.href = "/create/";
     });
+    $("#back-update").click(function() {
+        location.reload();
+    });
+    $("#refresh").click(function() {
+        location.reload();
+    });
 
 });
 
@@ -75,9 +81,7 @@ function showCourses(courses) {
 
 
     $(document).ready(function() {
-        $("#refresh").click(function() {
-            location.reload();
-        });
+
         $('#view').click(function() {
             $('#first_name').attr("disabled", "disabled");
             $('#last_name').attr("disabled", "disabled");
@@ -114,12 +118,7 @@ function showCourses(courses) {
     function set_permissions() {
         var get_permissions = localStorage.getItem("permissions")
         var permissions = JSON.parse(get_permissions)
-        console.log(permissions)
-            // if (permissions.includes("view_employees")) {
-            //     $(".update").show()
 
-        // }
-        // 
 
         if (permissions.includes("change_employees")) {
             $(".update").show()
@@ -153,7 +152,7 @@ function showCourses(courses) {
         function(idx, course) {
             $("#courserows").append(
 
-                "<tr><td><button class='button1 update' onclick='changes(" + course.id + ")'>Update</button><button id = 'refresh' class='button1 delete' onclick='deleteCourse(" + course.addressdetails + ")'>Delete</button><buttons class='button1' id='view' onclick='changes1(" + course.id + ")'>View</buttons></td><td class='editable' data-id=" + course.id + " data-type='first_name'>" +
+                "<tr><td><button class='button1 update' onclick='changes(" + course.id + ")'>Update</button><button id = 'refresh' class='button1 delete' onclick='deleteCourse(" + course.addressdetails + ")'>Delete</button><button class='button1' id='view' onclick='changes1(" + course.id + ")'>View</button></td><td class='editable' data-id=" + course.id + " data-type='first_name'>" +
 
                 course.first_name +
                 "</td><td  class='editable' data-id=" + course.id + " data-type='last_name'>" +
@@ -168,8 +167,7 @@ function showCourses(courses) {
                 course.email_address +
                 "</td><td class='editable' data-id=" + course.id + " data-type='contact_number'>" +
                 course.contact_number +
-                "</td><td class='editable' data-id=" + course.id + " data-type='deleted'>" +
-                course.deleted +
+
                 "</td><tr>"
             );
         } // anonymous function
@@ -258,6 +256,7 @@ function changes1(id) {
         .done(function(data) {
             $('.employee-table').hide()
             $('.update-form').show()
+            $('#update-butt').hide()
             console.log(data)
             showCourse(data)
 

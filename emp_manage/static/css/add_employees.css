@@ -1,0 +1,58 @@
+.form-container {
+    margin-top: 4%;
+    margin-left: 25%;
+    margin-right: 25%;
+}
+
+.nav-link {
+    color: white;
+}
+
+.bg-primary {
+    background-color: black !important;
+}
+
+body {
+    font-family: all;
+    background-color: #ffccff45;
+}
+
+#form {
+    background-color: rgb(90 90 241 / 60%);
+}
+
+.btn-info {
+    transition: 0.5s ease-in-out;
+    background: rgb(2, 0, 36);
+    height: 40px;
+    font-size: 18px;
+    width: 83%;
+    margin-left: 8%;
+}
+
+.btn-link {
+    padding-top: 10px;
+    color: white;
+    text-decoration: none;
+    outline: none;
+}
+
+.head h1 {
+    color: rgb(2, 0, 36);
+}
+
+label {
+    color: black;
+}
+
+input:focus,
+input:hover {
+    border-color: none;
+    outline: none;
+    box-shadow: none;
+}
+
+h1 {
+    text-align: center;
+    color: rgb(2, 0, 36);
+}

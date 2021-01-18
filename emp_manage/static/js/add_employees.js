@@ -1,26 +1,4 @@
 var URL = "classproduct/";
-// var csrftoken = $("[name=csrfmiddlewaretoken]").val();
-
-// function getCookie(name) {
-//     var cookieValue = null;
-
-//     if (document.cookie && document.cookie != '') {
-//         var cookie = document.cookie.split(';');
-
-//         for (var i = 0; i < cookie.length; i++) {
-//             var cookie = cookies[i].trim();
-
-//             if (cookie.substring(0, name.length + 1) === (name + '=')) {
-//                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-//                 break;
-//             }
-//         }
-//     }
-//     return cookieValue;
-// };
-
-// var csrfToken = getcookie('csrftoken')
-
 
 $(document).ready(function() {
     $("#backview").click(function() {

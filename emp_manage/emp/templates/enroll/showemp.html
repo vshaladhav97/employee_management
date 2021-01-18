@@ -6,28 +6,39 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script src="{% static 'js/showemp.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'css/showemp.css' %}">
-    <link rel="stylesheet" href="{% static 'css/update.css' %}">
+    <script src="{% static 'js/show_emp.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="{% static 'css/show_emp.css' %}">
+    <style>
 
+    </style>
 </head>
 
 <body>
     {% block content %}
-
-    <div class="logout">
-        <span>
-            <a class="hello-msg" href="{% url 'logout' %}">Logout</a>
-        </span>
-    </div>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+        <a class="navbar-brand">V2STECH</a>
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fa fa-fw fa-user"></i>{{user_name}}
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" href="{% url 'logout' %}">LOGOUT</a>
+            </li>
+        </ul>
+    </nav>
     <div class="employee-table">
-
-
         <div class="head">
             <h1>Employee Management System</h1>
         </div>
-        <div class="container ">
+        <div class="container-1 ">
             <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.css">
             <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.js"></script>
             <table id="table_id" class="display">
@@ -41,7 +52,7 @@
                         <th>Gender</th>
                         <th>Email Address</th>
                         <th>Contact Number</th>
-                        <th>Deleted</th>
+
                     </tr>
                 </thead>
                 <tbody id="courserows"></tbody>
@@ -50,67 +61,133 @@
             <div>
                 {% if request.user.is_superuser %}
                 <button id="adding">ADD</button> {% else %} {% endif %}
-
             </div>
-
         </div>
     </div>
     <div class="update-form">
-        <div class="head">
-            <h1>UPDATE EMPLOYEES DETAILS</h1>
-        </div>
+        <div class="head"></div>
         <div class="form-allign">
-            <form action="" id="myForm" class="update-employee" method="post">
-                {% csrf_token %}
-                <br>
-                <label type="number" id="id" placeholder="id"></label>
-                <br>
-                <br>
-                <input type="text" id="first_name" placeholder="first name">
-                <input type="text" id="last_name" placeholder="last name">
-                <br>
-                <br>
-                <input type="text" id="username" placeholder="user name">
-                <br>
-                <br>
-                <input type="date" id="date_of_birth" placeholder="dob">
-                <select name="gender" id="gender">
-                    <option value="M">Male</option>
-                    <option value="F">Female</option>
-                    <option value="U">Unisex/parody</option>
-                </select>
-                <br>
-                <br>
-                <input type="email_address" id="email_address" placeholder="email">
-                <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
-                <br>
-                <br>
-                <label><input type="checkbox" id="deleted" placeholder="deleted" >deleted</label>
-                <br>
-                <br>
-                <input type="text" id="addressdetails" placeholder="addressdetails id">
-                <br>
-                <br>
-                <input type="text" id="address_line_1" placeholder="address1">
-                <input type="text" id="address_line_2" placeholder="address2">
-                <br>
-                <br>
-                <input type="text" id="city" placeholder="city">
-                <input type="text" id="country" placeholder="country">
+            <div class="container">
+                <div class="col-md-3"></div>
+                <div class="col-md-6" id="form">
+                    <form action="" id="myForm" class="update-employee" method="post">
+                        {% csrf_token %}
+                        <button type="button" id="back-update" class="btn btn-link back-link">Back</button>
+                        <h1 class="head-form">Employee Registration Form</h1>
+                        <br>
+                        <br>
+                        <label type="number" id="id" placeholder="id"></label>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <label>FIRST NAME</label>
+                                <input type="text" id="first_name" placeholder="First Name" class="form-control" required="">
+                                <br>
+                            </div>
+                            <div class="col-md-5">
+                                <label>LAST NAME</label>
+                                <input type="text" id="last_name" placeholder="Last Name" class="form-control" required="">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <label>USERNAME</label>
+                                <input type="Username" id="username" placeholder="Enter Username" class="form-control" required="">
+                                <br>
+                            </div>
+                            <div class="col-md-5">
+                                <label>EMAIL</label>
+                                <input type="Email" id="email_address" placeholder="Enter Email" class="form-control" required="">
+                            </div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <label>DATE</label>
+                                <input type="date" id="date_of_birth" placeholder="date" class="form-control" required="">
+                                <br>
+                            </div>
+                            <div class="col-md-5">
+                                <label for="gender">gender</label>
+                                <select class="form-control" id="gender">
+                                    <option>M</option>
+                                    <option>F</option>
+                                    <option>U</option>
+                                </select>
+                            </div>
+                            <!-- <div class="col-md-1"></div> -->
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <label>CONTACT</label>
+                                <input type="tel" id="contact_number" pattern="[0-9]{10}" placeholder="Enter Country" class="form-control" required="">
+                            </div>
+                            <div class="col-md-5">
+                                <label>DELETED:<input type="checkbox" id="deleted" placeholder="deleted" class="form-control"></label>
+                            </div>
 
-                <br>
-                <br>
-                <input type="text" id="pincode" placeholder="pincode">
-                <br>
-                <p/>
-                <button id="back-update">BACK</button>
-                <button type="submit" id="update-butt" class="update-inner" onclick="updateCourse()">Update</button>
-                <p/>
-            </form>
+                        </div>
+                        <br>
+                        <label id="addressdetails"></label>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label>ADDRESS LINE 1</label>
+                                <input type="text" id="address_line_1" placeholder="Address Line 1" class="form-control" required="">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label>ADDRESS LINE 2</label>
+                                <input type="text" id="address_line_2" placeholder="Address Line 2" class="form-control" required="">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-10">
+                                <label>PINCODE</label>
+                                <input type="text" id="pincode" placeholder="pincode" class="form-control" required="">
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                        <br>
+                        <div class="row">
+                            <div class="col-md-1"></div>
+                            <div class="col-md-5">
+                                <label>CITY</label>
+                                <input type="text" id="city" placeholder="Enter City" class="form-control" required="">
+                                <br>
+                            </div>
+                            <div class="col-md-5">
+                                <label>COUNTRY</label>
+                                <input type="text" id="country" placeholder="Enter Country" class="form-control" required="">
+                            </div>
+                            <!-- <div class="col-md-1"></div> -->
+                        </div>
+                        <br>
+                        <center>
+                            <button type="Submit" id="update-butt" class="btn btn-info form-control" onclick="updateCourse()">UPDATE</button>
+                        </center>
+                        <br>
+                        <br>
+                    </form>
+                </div>
+                <div class="col-md-3"></div>
+            </div>
         </div>
     </div>
     {% endblock %}
 </body>
-
 
 </html>

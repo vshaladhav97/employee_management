@@ -10,72 +10,149 @@
 
     </style>
 
-
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.3.1.min.js"></script>
-    <script src="{% static 'js/addemp.js' %}"></script>
+    <script src="{% static 'js/add_employees.js' %}"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <link rel="stylesheet" href="{% static 'css/addemp.css' %}">
+    <link rel="stylesheet" href="{% static 'css/add_employees.css' %}">
+
 </head>
 
 <body>
     {% block content %}
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary rounded">
+        <a class="navbar-brand">V2STECH</a>
+        <ul class="navbar-nav mr-auto"></ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link">
+                    <i class="fa fa-fw fa-user"></i>{{user_name}}
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link">LOGOUT</a>
+            </li>
+        </ul>
+    </nav>
 
-    <div class="head">
-        <h1>ADD EMPLOYEES DETAILS</h1>
-    </div>
-    <div class="wrapper fadeInDown">
-        <div class="form-container">
+    <div class="form-container" id="form">
 
-            <button id="backview">BackToList</button>
-            <form action="" class="add-employee">
-                {% csrf_token %}
-                <br>
-                <br>
-                <input type="text" id="first_name" placeholder="first name">
-                <br>
-                <br>
-                <input type="text" id="last_name" placeholder="last name">
-                <br>
-                <br>
-                <input type="text" id="username" placeholder="user name">
-                <br>
-                <br>
-                <input type="date" id="date_of_birth" placeholder="dob">
-                <select name="gender" id="gender">
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-                <option value="U">Unisex/parody</option>
-                </select>
-                <br>
-                <br>
-                <input type="email_address" id="email_address" placeholder="email">
-                <input type="tel" id="contact_number" pattern="[0-9]{10}" required placeholder="contact number">
-                <br>
-                <br>
-                <input type="text" id="address_line_1" placeholder="address1">
-                <input type="text" id="address_line_2" placeholder="address2">
-                <br>
-                <br>
-                <input type="text" id="city" placeholder="city">
-                <input type="text" id="country" placeholder="country">
-                <br>
-                <br>
-                <input type="text" id="pincode" placeholder="pincode">
 
-                <br>
-                <br>
+        <form action="" class="add-employee">
+            {% csrf_token %}
+            <button type="button" id="backview" class="btn btn-link back-link">Back</button>
+            <h1 class="head-form">Employee Registration Form</h1>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>FIRST NAME</label>
+                    <input type="text" id="first_name" placeholder="First Name" class="form-control" required="">
+                    <br>
+                </div>
+                <div class="col-md-5">
+                    <label>LAST NAME</label>
+                    <input type="text" id="last_name" placeholder="Last Name" class="form-control" required="">
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>USERNAME</label>
+                    <input type="Username" id="username" placeholder="Enter Username" class="form-control" required="">
+                    <br>
+                </div>
+                <div class="col-md-5">
+                    <label>EMAIL</label>
+                    <input type="Email" id="email_address" placeholder="Enter Email" class="form-control" required="">
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>DATE</label>
+                    <input type="date" id="date_of_birth" placeholder="date" class="form-control" required="">
+                    <br>
+                </div>
+                <div class="col-md-5">
+                    <label for="gender">GENDER</label>
+                    <select class="form-control" id="gender">
+                            <option>M</option>
+                            <option>F</option>
+                            <option>U</option>
+                        </select>
+                </div>
+                <!-- <div class="col-md-1"></div> -->
+            </div>
+            <br>
+            <!-- <input type="email_address" id="email_address" placeholder="email"> -->
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>CONTACT</label>
+                    <input type="tel" id="contact_number" pattern="[0-9]{10}" placeholder="Enter Country" class="form-control" required="">
+                </div>
+                <div class="col-md-5">
+                    <label>DELETED:<input type="checkbox" id="deleted" placeholder="deleted" class="form-control"></label>
+                </div>
 
-                <input type="checkbox" id="deleted" placeholder="deleted">
-                <br>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <label>ADDRESS LINE 1</label>
+                    <input type="text" id="address_line_1" placeholder="Address Line 1" class="form-control" required="">
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <label>ADDRESS LINE 2</label>
+                    <input type="text" id="address_line_2" placeholder="Address Line 2" class="form-control" required="">
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <label>PINCODE</label>
+                    <input type="text" id="pincode" placeholder="pincode" class="form-control" required="">
+                </div>
+                <div class="col-md-1"></div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <label>CITY</label>
+                    <input type="text" id="city" placeholder="Enter City" class="form-control" required="">
+                    <br>
+                </div>
+                <div class="col-md-5">
+                    <label>COUNTRY</label>
+                    <input type="text" id="country" placeholder="Enter Country" class="form-control" required="">
+                </div>
+                <!-- <div class="col-md-1"></div> -->
+            </div>
 
-            </form>
+            <!-- <input type="checkbox" id="deleted" placeholder="deleted"> -->
+            <br>
 
-            <p/>
-            <button id="add" onclick="addCourse()">Add</button>
+        </form>
 
-            <p/>
+        <p/>
+        <button id="add" class="btn btn-info form-control" onclick="addCourse()">Add</button>
 
-        </div>
+        <p/>
+
     </div>
     {% endblock %}
 </body>
